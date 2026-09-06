@@ -1,0 +1,109 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cms-server",
+
+  // `main` is a source file, never a path under ./dist — that file does not exist until after a
+  // build, and naming it makes `astro dev` fail before it starts. @astrojs/cloudflare fills this in
+  // only when it is absent, and the entry it supplies is nothing but `{ fetch: handle }`.
+  // src/worker.ts re-exports that same `handle` and adds `scheduled`, which is the only way the
+  // cron trigger below can reach the publishing sweep.
+  "main": "./src/worker.ts",
+
+  // --- Scheduled publishing --------------------------------------------------
+  // Every five minutes, which is the resolution scheduled publishing actually has.
+  //
+  // A scheduled *page* goes live without this: visibility is computed when the page is requested.
+  // A scheduled *release* does not — its content has to be applied, which no page request can do.
+  // Remove this trigger and releases stop publishing on schedule.
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
+
+  // --- Caching ---------------------------------------------------------------
+  // Cloudflare checks the cache *before* invoking this Worker, so a hit costs no CPU, no
+  // subrequests and no D1 reads — the Worker never runs. This is what makes the `Cache-Control`
+  // the delivery API sends actually do something: Cloudflare does not cache JSON or HTML by
+  // default, so without this the headers are correct HTTP that nothing acts on.
+  //
+  // Admin screens (`Set-Cookie`) and previews (`no-store`) bypass it automatically.
+  "cache": {
+    "enabled": true
+  },
+
+  // Placed near D1 rather than near the visitor: resolving a page is a chain of dependent queries,
+  // and D1 lives in one region while the eyeball does not.
+  "placement": {
+    "mode": "smart"
+  },
+
+  "compatibility_date": "2026-07-01",
+
+  // Gives the Worker the Node built-ins Astro's server runtime expects.
+  // `nodejs_compat` gives the Worker the Node built-ins Astro's server runtime expects.
+  //
+  // `global_fetch_strictly_public` is what lets a `fetch()` to another Worker on the *same
+  // Cloudflare account* actually leave and come back through the public edge. Without it the
+  // request is short-circuited internally and does not route the way a real one does — the
+  // cache-purge callback from the CMS to a consumer answered 404 for a URL that returned 401 to an
+  // identical curl from outside, which reads as a missing route rather than a missing flag and
+  // sends you looking in every wrong place. Both deployments carry it because the traffic crosses
+  // that boundary in both directions: the site fetches the delivery API, the CMS calls the purge
+  // endpoint.
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+
+  "observability": {
+    "enabled": true
+  },
+
+  // --- D1 -------------------------------------------------------------------
+  // Run `npx wrangler d1 create cms-server` and paste the id it prints.
+  // The binding name `DB` is what @taprootcms/core looks for — see dbConfigFromEnv.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cms-server",
+      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+    }
+  ],
+
+  // --- KV -------------------------------------------------------------------
+  // Taproot does not use Astro's session API — sign-in sessions are rows in the database.
+  // @astrojs/cloudflare injects a `SESSION` KV binding anyway, and injects it with no id, which
+  // makes `wrangler deploy` create a namespace as a side effect. Declaring it keeps that visible,
+  // and keeps a failed deploy retryable: a deploy that dies after auto-provisioning cannot be run
+  // again, because the second attempt asks for a title that now exists (error 10014).
+  //
+  // Run `npx wrangler kv namespace create cms-server-session` and paste the id it prints.
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+    }
+  ],
+
+  // --- R2 -------------------------------------------------------------------
+  // Run `npx wrangler r2 bucket create cms-server-media`.
+  // The binding name `MEDIA` is what storageFromEnv looks for.
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "cms-server-media"
+    }
+  ],
+
+  // --- Images ----------------------------------------------------------------
+  // Resizes media on the way out, so a visitor on a phone is not sent a 2000px photograph.
+  // Nothing to create — the binding is the whole setup, and it works on a workers.dev subdomain
+  // with no domain of your own. Cloudflare's free allowance is 5,000 unique transformations a
+  // month, counted per image per size, and a cached one is not re-billed.
+  //
+  // Safe to delete. The media route serves the stored original whenever this is absent, so removing
+  // it costs bytes and never correctness — which is also why a Node deployment needs nothing here.
+  "images": {
+    "binding": "IMAGES"
+  },
+
+  "vars": {
+    "NODE_ENV": "production"
+  }
+}
