@@ -1,0 +1,89 @@
+---
+import { committees } from '../data/committees';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="w-full bg-cso-subtle text-cso-secondary border-t border-cso-border pt-12 pb-8 mt-16">
+  <div class="w-full px-6 sm:px-10 md:px-14">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-cso-border">
+      <!-- Brand column -->
+      <div class="space-y-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-cso-surface flex items-center justify-center p-1 border border-cso-border shadow-sm shrink-0">
+            <img src="/logo/CSOLOGO.png" alt="CSO Emblem" class="w-full h-full object-contain" />
+          </div>
+          <div>
+            <h4 class="font-extrabold text-base tracking-wide text-cso-primary">CSO - Computer Studies Organization</h4>
+            <p class="text-xs text-cso-muted">ACLC College Of Mandaue</p>
+          </div>
+        </div>
+
+        <p class="text-xs text-cso-secondary leading-relaxed max-w-md font-medium">
+          Empowering students through technology workshops, esports events, network engineering, and software development.
+        </p>
+
+        <div class="pt-2">
+          <a
+            href="https://www.facebook.com/profile.php?id=100094218363222"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-sky-500/10 text-sky-500 border border-sky-500/30 text-xs font-bold hover:bg-sky-500/20 transition-colors min-h-[36px]"
+          >
+            <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+            </svg>
+            <span>Visit Official Facebook Page</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Dynamic Committees list -->
+      <div>
+        <h5 class="font-extrabold text-xs uppercase tracking-widest text-cso-primary mb-3">Official Committees</h5>
+        <ul class="space-y-2 text-xs text-cso-secondary font-medium">
+          {committees.map((comm) => (
+            <li>
+              <a href="/#committees" class="hover:text-cso-primary transition-colors flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full shrink-0" style={`background-color: ${comm.accentColor};`}></span>
+                <span>{comm.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div>
+        <h5 class="font-extrabold text-xs uppercase tracking-widest text-cso-primary mb-3">Info &amp; Socials</h5>
+        <ul class="space-y-2.5 text-xs text-cso-secondary font-medium">
+          <li class="flex items-start gap-2">
+            <svg class="w-4 h-4 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>ACLC College Of Mandaue, Mandaue City, Cebu, Philippines</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <a href="mailto:computerstudiesorganzation.aclc@gmail.com" class="hover:text-amber-500 transition-colors">
+              computerstudiesorganzation.aclc@gmail.com
+            </a>
+          </li>
+          <li class="flex items-center gap-2 pt-1 font-mono text-[11px] text-cso-muted">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>Taproot CMS Powered Events Hub</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom copyright -->
+    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cso-muted font-medium">
+      <p>© {year} Computer Studies Organization (CSO). All rights reserved.</p>
+      <p>Maintained by ACLC College of Mandaue - Computer Studies Organization (CSO)</p>
+    </div>
+  </div>
+</footer>

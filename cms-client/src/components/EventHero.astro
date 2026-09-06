@@ -1,0 +1,47 @@
+---
+interface Props {
+  totalCount?: number;
+}
+
+const { totalCount = 0 } = Astro.props;
+---
+
+<section class="relative w-full pt-12 pb-14 flex flex-col items-center text-center bg-cso-page border-b border-cso-border">
+  <!-- Giant Iconic CSO Typography matching the registration portal -->
+  <div class="relative w-full max-w-5xl px-4 flex flex-col items-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-emerald-500/10 text-cso-emerald border border-emerald-500/30 mb-4">
+      <span class="w-2 h-2 rounded-full bg-cso-emerald animate-pulse"></span>
+      Official Events &amp; Activities Portal ({totalCount} Scheduled)
+    </div>
+
+    <h1 class="text-7xl sm:text-9xl md:text-[11rem] font-black tracking-widest text-cso-primary leading-none select-none transition-colors">
+      CSO
+    </h1>
+
+    <p class="text-xs sm:text-sm font-bold text-cso-secondary mt-3 uppercase tracking-widest transition-colors">
+      Computer Studies Organization • ACLC College Of Mandaue
+    </p>
+
+    <p class="text-xs sm:text-sm text-cso-muted max-w-xl mx-auto mt-4 leading-relaxed font-medium transition-colors">
+      Explore official campus tournaments, hackathons, cybersecurity CTFs, creative UI/UX sprints, and featured partner events.
+    </p>
+
+    <!-- Quick Navigation Anchor Links -->
+    <div class="flex items-center gap-3 mt-7">
+      <a
+        href="#committees"
+        class="px-4 py-2 rounded-md bg-cso-surface hover:bg-cso-subtle text-xs font-bold text-cso-primary border border-cso-border hover:border-cso-border-strong transition-all flex items-center gap-1.5 shadow-sm hover:scale-102"
+      >
+        <span>Official Committees</span>
+        <span>↓</span>
+      </a>
+      <a
+        href="#events-grid"
+        class="px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-500 text-xs font-black text-white transition-all flex items-center gap-1.5 shadow-md hover:scale-105"
+      >
+        <span>Explore All Events</span>
+        <span>↓</span>
+      </a>
+    </div>
+  </div>
+</section>

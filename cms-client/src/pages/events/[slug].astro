@@ -1,0 +1,223 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getEvents } from '../../lib/api';
+import type { EventItem } from '../../types';
+
+export async function getStaticPaths() {
+  const events = await getEvents();
+  return events.map((event) => ({
+    params: { slug: event.slug },
+    props: { event },
+  }));
+}
+
+interface Props {
+  event: EventItem;
+}
+
+const { event } = Astro.props;
+const isExternal = event.hostType === 'External / Partner';
+---
+
+<Layout title={`${event.title} | CSO Events`} description={event.description}>
+  <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-6 sm:py-10">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono text-cso-muted mb-6 sm:mb-8 overflow-hidden">
+      <a href="/" class="hover:text-cso-emerald transition-colors shrink-0">Events</a>
+      <span class="shrink-0">/</span>
+      <span class="text-cso-primary font-bold truncate min-w-0">{event.title}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+      <!-- Main Content (Left Column) -->
+      <div class="lg:col-span-7 space-y-6 sm:space-y-8 min-w-0">
+        <!-- Hero Cover Image -->
+        <div class="relative aspect-[16/9] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-cso-subtle border border-cso-border shadow-2xl">
+          <img
+            src={event.image}
+            alt={event.title}
+            class="w-full h-full object-cover object-center"
+          />
+          <!-- Dynamic Theme Gradient Overlay -->
+          <div class="absolute inset-0 overlay-card-image"></div>
+
+          <!-- Category and Host Badges -->
+          <div class="absolute top-2.5 left-2.5 sm:top-5 sm:left-5 flex flex-wrap items-center gap-1.5 sm:gap-2 max-w-[calc(100%-1.25rem)] sm:max-w-[calc(100%-2.5rem)]">
+            <span class="px-2 py-0.5 sm:px-3 sm:py-1 rounded-md bg-cso-surface/90 backdrop-blur-md text-cso-emerald border border-emerald-500/30 text-[10px] sm:text-xs font-black uppercase tracking-wider whitespace-nowrap shrink-0 shadow-sm">
+              {event.category}
+            </span>
+            <span class="px-2 py-0.5 sm:px-3 sm:py-1 rounded-md bg-cso-surface/90 backdrop-blur-md text-cso-secondary border border-cso-border text-[10px] sm:text-xs font-bold font-mono whitespace-nowrap shrink-0 shadow-sm">
+              {event.locationType}
+            </span>
+            {event.committeeName && (
+              <span
+                class="px-2 py-0.5 sm:px-3 sm:py-1 rounded-md backdrop-blur-md text-[10px] sm:text-xs font-bold border transition-colors whitespace-nowrap shrink-0 shadow-sm"
+                style={`color: ${event.committeeColor}; border-color: ${(event.committeeColor)}50; background-color: var(--badge-bg);`}
+              >
+                {event.committeeName}
+              </span>
+            )}
+          </div>
+        </div>
+
+        <!-- Title & Organizer Info -->
+        <div class="space-y-3 sm:space-y-4">
+          <div class="flex items-center gap-2.5 sm:gap-3">
+            {event.organizerLogo ? (
+              <div
+                class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-cso-subtle border p-1.5 flex items-center justify-center shadow-md transition-colors shrink-0"
+                style={`border-color: ${(event.committeeColor)}60;`}
+              >
+                <img src={event.organizerLogo} alt={event.organizer} class="w-full h-full object-contain" />
+              </div>
+            ) : (
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-cso-emerald flex items-center justify-center font-bold text-xs shrink-0">
+                🌐
+              </div>
+            )}
+            <div class="min-w-0 flex-1">
+              <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-cso-muted block">Host Organization</span>
+              <h3 class="text-xs sm:text-sm font-extrabold text-cso-primary truncate">{event.organizer}</h3>
+            </div>
+          </div>
+
+          <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-cso-primary tracking-tight leading-tight break-words">
+            {event.title}
+          </h1>
+
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
+            {event.tags.map((tag) => (
+              <span class="text-[11px] sm:text-xs font-mono px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-cso-subtle text-cso-secondary border border-cso-border">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <!-- About The Event -->
+        <div class="p-5 sm:p-8 rounded-xl sm:rounded-2xl bg-cso-surface border border-cso-border shadow-sm space-y-3 sm:space-y-4 text-cso-secondary text-xs sm:text-sm md:text-base leading-relaxed break-words">
+          <h2 class="text-lg sm:text-xl font-extrabold text-cso-primary tracking-tight border-b border-cso-border pb-3">About This Event</h2>
+          <p>{event.description}</p>
+          <p class="text-[11px] sm:text-xs md:text-sm text-cso-muted">
+            Organized under the Computer Studies Organization (CSO) of ACLC College of Mandaue. Promoting tech skills, collaborative projects, and career opportunities for students across all levels.
+          </p>
+        </div>
+
+        <!-- Prerequisites & Requirements -->
+        {event.prerequisites && event.prerequisites.length > 0 && (
+          <div class="p-4 sm:p-6 rounded-xl bg-cso-subtle border border-cso-border space-y-3">
+            <h3 class="text-[11px] sm:text-xs font-black uppercase tracking-widest text-cso-muted">Requirements &amp; Preparation</h3>
+            <ul class="space-y-2">
+              {event.prerequisites.map((item) => (
+                <li class="flex items-start gap-2.5 text-xs sm:text-sm text-cso-secondary break-words">
+                  <span class="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={`background-color: ${event.committeeColor};`}></span>
+                  <span class="flex-1">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- Speakers / Judges -->
+        {event.speakersOrJudges && event.speakersOrJudges.length > 0 && (
+          <div class="p-4 sm:p-6 rounded-xl bg-cso-subtle border border-cso-border space-y-3">
+            <h3 class="text-[11px] sm:text-xs font-black uppercase tracking-widest text-cso-muted">Speakers, Judges &amp; Mentors</h3>
+            <div class="flex flex-wrap gap-1.5 sm:gap-2">
+              {event.speakersOrJudges.map((person) => (
+                <span class="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md bg-cso-surface text-cso-primary text-[11px] sm:text-xs font-bold border border-cso-border shadow-sm break-words">
+                  {person}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <!-- Right Column: Registration & Location Box -->
+      <div class="lg:col-span-5 space-y-6 min-w-0 w-full">
+        <div class="sticky top-20 sm:top-28 p-4 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl bg-cso-surface border border-cso-border shadow-2xl space-y-5 sm:space-y-6">
+          <!-- Price / Entry Type -->
+          <div class="flex flex-wrap items-baseline justify-between border-b border-cso-border pb-4 gap-2">
+            <div class="min-w-0 flex-1">
+              <span class="block text-[10px] sm:text-xs uppercase tracking-wider text-cso-muted font-medium">Access</span>
+              <span class="text-xl sm:text-2xl font-black text-cso-primary break-words">{event.price}</span>
+            </div>
+            <span
+              class="px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-bold font-mono border whitespace-nowrap shrink-0 self-center"
+              style={`color: ${event.committeeColor}; border-color: ${(event.committeeColor)}40; background-color: ${(event.committeeColor)}15;`}
+            >
+              ● Registration Open
+            </span>
+          </div>
+
+          <!-- Schedule & Location -->
+          <div class="space-y-4 text-xs sm:text-sm">
+            <div class="flex items-start gap-2.5 sm:gap-3">
+              <div
+                class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border mt-0.5 shadow-sm"
+                style={`color: ${event.committeeColor}; border-color: ${(event.committeeColor)}40; background-color: ${(event.committeeColor)}15;`}
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div class="min-w-0 flex-1 break-words">
+                <strong class="block text-cso-primary font-bold leading-snug">{event.formattedDate}</strong>
+                <span class="text-cso-muted text-[11px] sm:text-xs font-mono">{event.time}</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-2.5 sm:gap-3">
+              <div
+                class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border mt-0.5 shadow-sm"
+                style={`color: ${event.committeeColor}; border-color: ${(event.committeeColor)}40; background-color: ${(event.committeeColor)}15;`}
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div class="min-w-0 flex-1 break-words">
+                <strong class="block text-cso-primary font-bold leading-snug">{event.venue}</strong>
+                <span class="text-cso-muted text-[11px] sm:text-xs font-medium leading-relaxed">{event.locationType} • ACLC College Of Mandaue</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Registration Button -->
+          <div class="space-y-2.5 sm:space-y-3 pt-2">
+            <a
+              href={event.registrationUrl ?? '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full py-3 sm:py-3.5 px-3 sm:px-4 rounded-md font-extrabold text-xs uppercase tracking-wider text-neutral-950 shadow-md hover:scale-102 transition-all flex items-center justify-center gap-2 text-center"
+              style={`background-color: ${event.committeeColor};`}
+            >
+              <span>{isExternal ? 'Register on Partner Portal ↗' : 'Register for Event'}</span>
+            </a>
+
+            <a
+              href="/#events-grid"
+              class="block text-center py-2 sm:py-2.5 px-3 sm:px-4 rounded-md text-xs font-bold text-cso-secondary hover:text-cso-primary border border-cso-border hover:bg-cso-subtle transition-colors"
+            >
+              ← Back to All Events
+            </a>
+          </div>
+
+          <!-- Committee Contact Note -->
+          <div class="pt-3 sm:pt-4 border-t border-cso-border text-center text-[11px] sm:text-xs text-cso-muted break-words">
+            Questions? Contact <strong class="text-cso-primary">{event.organizer}</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style define:vars={{ pageAccent: event.committeeColor }}>
+  ::selection {
+    background-color: var(--pageAccent);
+    color: #09090b;
+  }
+</style>

@@ -1,0 +1,119 @@
+---
+---
+
+<header class="sticky top-0 z-50 w-full border-b py-3 sm:py-4 bg-cso-surface/90 text-cso-primary border-cso-border backdrop-blur-md shadow-sm">
+  <div class="w-full px-3.5 sm:px-8 md:px-14 flex items-center justify-between gap-2">
+    <!-- Brand Logo -->
+    <a href="/" class="flex items-center gap-2.5 sm:gap-3 cursor-pointer group min-w-0">
+      <div class="relative w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-cso-subtle flex items-center justify-center p-1 border border-cso-border group-hover:scale-105 transition-transform shrink-0">
+        <img src="/logo/CSOLOGO.png" alt="CSO Logo" class="w-full h-full object-contain" />
+      </div>
+      <div class="min-w-0">
+        <div class="font-extrabold text-sm sm:text-base md:text-lg tracking-wider text-cso-primary leading-none group-hover:text-cso-emerald transition-colors">
+          CSO
+        </div>
+        <div class="text-[9px] sm:text-[10px] md:text-xs text-cso-muted font-medium tracking-wide uppercase truncate max-w-[150px] sm:max-w-none">
+          Computer Studies Organization
+        </div>
+      </div>
+    </a>
+
+    <!-- Nav actions -->
+    <div class="flex items-center space-x-2 sm:space-x-3 shrink-0">
+      <nav class="hidden md:flex items-center space-x-4 font-medium text-sm">
+        <a
+          href="/#committees"
+          class="hover:text-cso-emerald flex items-center gap-1.5 py-1 text-cso-secondary font-bold transition-colors"
+        >
+          <svg class="w-4 h-4 text-cso-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          Committees
+        </a>
+
+        <a
+          href="/#events-grid"
+          class="hover:text-cso-emerald flex items-center gap-1.5 py-1 text-cso-secondary font-bold transition-colors"
+        >
+          <svg class="w-4 h-4 text-cso-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          Events Calendar
+        </a>
+
+        <a
+          href="/#external-events"
+          class="hover:text-cso-emerald flex items-center gap-1.5 py-1 text-cso-secondary font-bold transition-colors"
+        >
+          <svg class="w-4 h-4 text-cso-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+          </svg>
+          Outside Events
+        </a>
+
+        <a
+          href="https://cso-aclc-mandaue.vercel.app/#register"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-3.5 py-1.5 rounded-md transition-all transform hover:scale-105 shadow-sm text-xs uppercase tracking-wider min-h-[34px] flex items-center justify-center"
+        >
+          Register
+        </a>
+      </nav>
+
+      <!-- Theme Switcher Button -->
+      <button
+        id="theme-toggle-btn"
+        type="button"
+        class="p-2 sm:p-2.5 rounded-lg bg-cso-subtle text-cso-secondary hover:text-cso-primary hover:bg-cso-subtle-hover border border-cso-border focus:outline-none transition-colors flex items-center justify-center min-w-[34px] min-h-[34px] cursor-pointer"
+        aria-label="Toggle dark/light visual theme"
+        title="Toggle dark/light theme"
+      >
+        <!-- Sun icon (shown in dark mode to switch to light) -->
+        <svg id="theme-sun-icon" class="w-4 h-4 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <!-- Moon icon (shown in light mode to switch to dark) -->
+        <svg id="theme-moon-icon" class="w-4 h-4 block dark:hidden text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
+
+      <!-- Facebook Link -->
+      <a
+        href="https://www.facebook.com/profile.php?id=100094218363222"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="p-2 sm:p-2.5 rounded-lg bg-sky-500/10 text-sky-500 hover:bg-sky-500/20 border border-sky-500/30 focus:outline-none shadow-sm flex items-center justify-center min-w-[34px] min-h-[34px] transition-colors"
+        title="Official CSO Facebook Page"
+        aria-label="Official CSO Facebook Page"
+      >
+        <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  function setupThemeToggle() {
+    const btn = document.getElementById('theme-toggle-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      const nextTheme = isDark ? 'light' : 'dark';
+      if (typeof (window as any).__setCSOTheme === 'function') {
+        (window as any).__setCSOTheme(nextTheme);
+      } else {
+        document.documentElement.classList.toggle('dark', nextTheme === 'dark');
+        document.documentElement.classList.toggle('light', nextTheme === 'light');
+        localStorage.setItem('cso_theme', nextTheme);
+      }
+    });
+  }
+
+  setupThemeToggle();
+  document.addEventListener('astro:page-load', setupThemeToggle);
+</script>

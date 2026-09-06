@@ -1,0 +1,26 @@
+---
+import type { CommitteeItem } from '../types';
+import CommitteeCard from './CommitteeCard.astro';
+
+interface Props {
+  committees: CommitteeItem[];
+}
+
+const { committees = [] } = Astro.props;
+const upcomingList = committees.filter((c) => c.isUpcoming);
+---
+
+{upcomingList.length > 0 && (
+  <section id="upcoming-committees" class="mt-20 pt-16 border-t border-cso-border/80">
+    <div class="text-center mb-12">
+      <h3 class="text-2xl sm:text-3xl font-extrabold text-cso-primary tracking-tight">Upcoming Committees</h3>
+      <p class="text-xs sm:text-sm font-bold text-cso-muted mt-1 uppercase tracking-widest">In Formation &amp; Future Wings</p>
+    </div>
+
+    <div class="max-w-[1440px] mx-auto flex flex-wrap justify-center gap-4">
+      {upcomingList.map((committee) => (
+        <CommitteeCard committee={committee} isUpcoming={true} />
+      ))}
+    </div>
+  </section>
+)}

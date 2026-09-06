@@ -1,0 +1,123 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Computer Studies Organization (CSO) | ACLC College Of Mandaue',
+  description = 'Official website and events portal for the Computer Studies Organization (CSO) at ACLC College Of Mandaue. Discover committee events, hackathons, esports tournaments, and tech workshops.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="h-full antialiased scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Synchronous early theme detector & manager (zero flash) -->
+    <script is:inline>
+      (function () {
+        function getInitialTheme() {
+          try {
+            var stored = localStorage.getItem('cso_theme');
+            if (stored === 'dark' || stored === 'light') return stored;
+          } catch (e) {}
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme) {
+          try {
+            var doc = document.documentElement;
+            if (theme === 'dark') {
+              doc.classList.add('dark');
+              doc.classList.remove('light');
+              doc.setAttribute('data-theme', 'dark');
+              doc.style.colorScheme = 'dark';
+            } else {
+              doc.classList.remove('dark');
+              doc.classList.add('light');
+              doc.setAttribute('data-theme', 'light');
+              doc.style.colorScheme = 'light';
+            }
+          } catch (err) {}
+        }
+
+        function applyThemeWithTransitionSuppression(fn) {
+          try {
+            var doc = document.documentElement;
+            doc.classList.add('disable-transitions');
+            fn();
+            // Force layout reflow so changes apply without transition
+            void doc.offsetHeight;
+            requestAnimationFrame(function () {
+              doc.classList.remove('disable-transitions');
+            });
+          } catch (e) {
+            fn();
+          }
+        }
+
+        window.__setCSOTheme = function (theme) {
+          applyThemeWithTransitionSuppression(function () {
+            try {
+              if (theme === 'system') {
+                localStorage.removeItem('cso_theme');
+                var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                applyTheme(isDark ? 'dark' : 'light');
+              } else {
+                localStorage.setItem('cso_theme', theme);
+                applyTheme(theme);
+              }
+              window.dispatchEvent(new CustomEvent('cso:theme-change', { detail: { theme: theme } }));
+            } catch (e) {}
+          });
+        };
+
+        // Apply immediately before HTML render
+        applyTheme(getInitialTheme());
+
+        // Listen for system changes if user hasn't explicitly chosen a preference
+        try {
+          var mql = window.matchMedia('(prefers-color-scheme: dark)');
+          mql.addEventListener('change', function (e) {
+            try {
+              if (!localStorage.getItem('cso_theme')) {
+                applyThemeWithTransitionSuppression(function () {
+                  applyTheme(e.matches ? 'dark' : 'light');
+                });
+              }
+            } catch (err) {}
+          });
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="icon" type="image/png" href="/logo/CSOLOGO.png" />
+    <link rel="shortcut icon" href="/logo/CSOLOGO.png" />
+    <link rel="apple-touch-icon" href="/logo/CSOLOGO.png" />
+    
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-full flex flex-col font-sans bg-cso-page text-cso-primary selection:bg-emerald-500 selection:text-neutral-950 overflow-x-hidden">
+    <Navbar />
+    <main class="flex-1 w-full">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

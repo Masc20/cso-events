@@ -1,0 +1,37 @@
+---
+import type { CommitteeItem } from '../types';
+import CommitteeCard from './CommitteeCard.astro';
+import UpcomingCommittees from './UpcomingCommittees.astro';
+
+interface Props {
+  committees: CommitteeItem[];
+  upcomingCommittees?: CommitteeItem[];
+  events?: any[];
+}
+
+const { committees = [], upcomingCommittees = [] } = Astro.props;
+---
+
+<section id="committees" class="relative w-full bg-cso-subtle pt-20 pb-20 px-4 mt-16 border-y border-cso-border">
+  <!-- Center Circular Badge -->
+  <div class="absolute -top-16 sm:-top-20 left-1/2 -translate-x-1/2 z-20">
+    <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-3 sm:p-4 bg-cso-subtle border border-cso-border shadow-lg flex items-center justify-center">
+      <img src="/logo/CSOLOGO.png" alt="CSO Logo Badge" class="w-full h-full object-contain" />
+    </div>
+  </div>
+
+  <div class="text-center mt-6 mb-12">
+    <h3 class="text-2xl sm:text-3xl font-extrabold text-cso-primary tracking-tight">Official Committees</h3>
+    <p class="text-xs sm:text-sm font-bold text-cso-muted mt-1 uppercase tracking-widest">Active Wings &amp; Divisions</p>
+  </div>
+
+  <!-- Active Committees Grid -->
+  <div class="max-w-[1440px] mx-auto flex flex-wrap justify-center gap-4">
+    {committees.map((committee) => (
+      <CommitteeCard committee={committee} isUpcoming={false} />
+    ))}
+  </div>
+
+  <!-- Dedicated Upcoming Committees Section (Completely hides if empty) -->
+  <UpcomingCommittees committees={upcomingCommittees} />
+</section>

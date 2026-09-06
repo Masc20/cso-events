@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+:root {
+  /* ==========================================================================
+     Light Theme Design Tokens (WCAG 2.1 AA & AAA Compliant)
+     ========================================================================== */
+  --bg-page: #f8fafc; /* Crisp Slate-50 Canvas */
+  --bg-surface: #ffffff; /* Pure White Elevated Surface */
+  --bg-surface-elevated: #ffffff;
+  --bg-subtle: #f1f5f9; /* Soft Slate-100 Container */
+  --bg-subtle-hover: #e2e8f0; /* Slate-200 Hover */
+  --bg-input: #ffffff;
+
+  --border-subtle: #e2e8f0; /* Slate-200 Subtle Border */
+  --border-strong: #cbd5e1; /* Slate-300 High-Contrast Border */
+
+  --text-primary: #0f172a; /* Slate-900 (15:1+ Contrast) */
+  --text-secondary: #334155; /* Slate-700 (9:1+ Contrast) */
+  --text-muted: #64748b; /* Slate-500 (4.6:1+ Contrast) */
+
+  /* Emerald Brand Accent (Light mode: Emerald-600 for AA contrast) */
+  --accent-emerald: #059669;
+  --accent-emerald-hover: #047857;
+  --accent-emerald-bg: rgba(5, 150, 105, 0.08);
+  --accent-emerald-border: rgba(5, 150, 105, 0.25);
+
+  --badge-bg: rgba(15, 23, 42, 0.05);
+  --badge-border: rgba(15, 23, 42, 0.12);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --shadow-xl: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --shadow-2xl: 0 20px 35px -5px rgba(15, 23, 42, 0.1), 0 10px 15px -3px rgba(15, 23, 42, 0.05);
+
+  /* Dynamic Gradients for Image Overlays */
+  --gradient-card-overlay: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  --gradient-hero-overlay: linear-gradient(to top, rgba(248, 250, 252, 0.98) 0%, rgba(248, 250, 252, 0.3) 40%, transparent 100%);
+  --gradient-spotlight-vertical: linear-gradient(to top, #ffffff 0%, rgba(255, 255, 255, 0.4) 40%, transparent 100%);
+  --gradient-spotlight-horizontal: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0.4) 40%, transparent 100%);
+
+  /* Filter Button States */
+  --filter-active-bg: #0f172a;
+  --filter-active-text: #ffffff;
+  --filter-active-border: #0f172a;
+  --filter-inactive-bg: #ffffff;
+  --filter-inactive-text: #334155;
+  --filter-inactive-border: #e2e8f0;
+}
+
+html.dark {
+  /* ==========================================================================
+     Dark Theme Design Tokens (Rich Zinc/OLED Canvas)
+     ========================================================================== */
+  --bg-page: #09090b; /* Deep Zinc-950 Canvas */
+  --bg-surface: #18181b; /* Zinc-900 Card Surface */
+  --bg-surface-elevated: #202024;
+  --bg-subtle: #121215; /* Zinc-950 Inset Container */
+  --bg-subtle-hover: #1c1c20;
+  --bg-input: #18181b;
+
+  --border-subtle: #27272a; /* Zinc-800 Border */
+  --border-strong: #3f3f46; /* Zinc-700 Interactive Border */
+
+  --text-primary: #f4f4f5; /* Zinc-100 (14:1+ Contrast) */
+  --text-secondary: #a1a1aa; /* Zinc-400 (7:1+ Contrast) */
+  --text-muted: #71717a; /* Zinc-500 (4.5:1+ Contrast) */
+
+  /* Emerald Brand Accent (Dark mode: Emerald-400 for luminous glow) */
+  --accent-emerald: #34d399;
+  --accent-emerald-hover: #10b981;
+  --accent-emerald-bg: rgba(16, 185, 129, 0.12);
+  --accent-emerald-border: rgba(16, 185, 129, 0.3);
+
+  --badge-bg: rgba(9, 9, 11, 0.85);
+  --badge-border: rgba(39, 39, 42, 0.9);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  --shadow-2xl: 0 20px 35px -5px rgba(0, 0, 0, 0.8), 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+
+  /* Dynamic Gradients for Image Overlays */
+  --gradient-card-overlay: linear-gradient(to top, rgba(24, 24, 27, 0.95) 0%, rgba(24, 24, 27, 0.2) 50%, transparent 100%);
+  --gradient-hero-overlay: linear-gradient(to top, rgba(9, 9, 11, 0.95) 0%, rgba(9, 9, 11, 0.3) 40%, transparent 100%);
+  --gradient-spotlight-vertical: linear-gradient(to top, #18181b 0%, rgba(24, 24, 27, 0.4) 40%, transparent 100%);
+  --gradient-spotlight-horizontal: linear-gradient(to right, #18181b 0%, rgba(24, 24, 27, 0.4) 40%, transparent 100%);
+
+  /* Filter Button States */
+  --filter-active-bg: #f4f4f5;
+  --filter-active-text: #09090b;
+  --filter-active-border: #f4f4f5;
+  --filter-inactive-bg: #18181b;
+  --filter-inactive-text: #a1a1aa;
+  --filter-inactive-border: #27272a;
+}
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Semantic Theme Color Mappings */
+  --color-cso-page: var(--bg-page);
+  --color-cso-surface: var(--bg-surface);
+  --color-cso-subtle: var(--bg-subtle);
+  --color-cso-subtle-hover: var(--bg-subtle-hover);
+  --color-cso-border: var(--border-subtle);
+  --color-cso-border-strong: var(--border-strong);
+  --color-cso-primary: var(--text-primary);
+  --color-cso-secondary: var(--text-secondary);
+  --color-cso-muted: var(--text-muted);
+  --color-cso-emerald: var(--accent-emerald);
+
+  --color-stale-400: #94a3b8;
+  --color-stale-500: #64748b;
+}
+
+.disable-transitions,
+.disable-transitions *,
+.disable-transitions *::before,
+.disable-transitions *::after {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+  transition: none !important;
+  animation-duration: 0s !important;
+}
+
+/* System Color Schemes */
+html.dark {
+  color-scheme: dark;
+}
+
+html.light,
+html:not(.dark) {
+  color-scheme: light;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.bg-cso-page { background-color: var(--bg-page); }
+.bg-cso-surface { background-color: var(--bg-surface); }
+.bg-cso-subtle { background-color: var(--bg-subtle); }
+.border-cso-border { border-color: var(--border-subtle); }
+.border-cso-strong { border-color: var(--border-strong); }
+.text-cso-primary { color: var(--text-primary); }
+.text-cso-secondary { color: var(--text-secondary); }
+.text-cso-muted { color: var(--text-muted); }
+.text-cso-emerald { color: var(--accent-emerald); }
+
+/* Dynamic Image Overlays */
+.overlay-card-image {
+  background: var(--gradient-card-overlay);
+}
+
+.overlay-hero-image {
+  background: var(--gradient-hero-overlay);
+}
+
+.overlay-spotlight-v {
+  background: var(--gradient-spotlight-vertical);
+}
+
+@media (min-width: 1024px) {
+  .overlay-spotlight-h {
+    background: var(--gradient-spotlight-horizontal);
+  }
+}
+
+/* ==========================================================================
+   Ribbon Banner System
+   ========================================================================== */
+.ribbon-clip {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 32px), 50% 100%, 0 calc(100% - 32px));
+}
+
+.ribbon-banner {
+  backface-visibility: hidden;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.45));
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
+  transform: translateZ(0);
+}
+
+.ribbon-banner:hover {
+  filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 16px var(--comm-glow));
+  transform: translateY(-8px) scale(1.02);
+}
+
+.ribbon-banner:hover h4 {
+  color: var(--comm-accent);
+}
+
+html:not(.dark) .ribbon-banner {
+  filter: drop-shadow(0 8px 16px rgba(15, 23, 42, 0.08));
+}
+
+html:not(.dark) .ribbon-banner:hover {
+  filter: drop-shadow(0 14px 26px rgba(15, 23, 42, 0.14)) drop-shadow(0 0 14px var(--comm-glow));
+}
+
+/* Card Hover Enhancements */
+.event-card {
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.event-card:hover {
+  border-color: var(--event-accent, var(--accent-emerald));
+  box-shadow: var(--shadow-2xl), 0 0 20px -5px color-mix(in srgb, var(--event-accent, var(--accent-emerald)) 25%, transparent);
+  transform: translateY(-4px);
+}
+
+.event-card:hover .event-title {
+  color: var(--event-accent, var(--accent-emerald));
+}
